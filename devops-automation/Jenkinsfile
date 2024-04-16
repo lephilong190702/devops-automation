@@ -1,0 +1,24 @@
+pipeline{
+    agent any
+    tools{
+        maven 'maven_3_9_0'
+    }
+    stages{
+        stage('Build Maven'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/lephilong190702/devops-automation']])
+                bat 'cd devops-automation/ && mvn clean install'
+            }
+        }
+        stage('Build docker image'){
+            steps{
+                bat 'cd devops-automation/ && docker build -t lephilong1907/devops-automation .'
+                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) { 
+                    bat 'docker login -u lephilong1907 -p Lephilong197@'
+                    
+                    bat 'docker push lephilong1907/devops-automation'
+                }
+            }
+        }
+    }
+}
