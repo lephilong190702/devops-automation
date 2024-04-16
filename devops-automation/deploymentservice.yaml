@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: devops-automation
-          image: lephilong1907/devops-automation # Image that will be used to containers in the cluster
+          image: lephilong1907/devops-automation:latest # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081 # The port that the container is running on in the cluster
